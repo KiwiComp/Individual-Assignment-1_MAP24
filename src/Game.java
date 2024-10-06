@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Game {
@@ -16,7 +17,6 @@ public class Game {
 
 
     public void playGame() {
-
         setUp();
 
         boolean isRunning = true;
@@ -86,20 +86,30 @@ public class Game {
         System.out.println(player.getName() + ", choose a position, 1-9, where you wish to place your marker.");
 
         boolean validInput = false;
-        while (!validInput) {
-            int chosenMove = scanner.nextInt();
-            scanner.nextLine();
+        int chosenMove = -1;
 
-            if (chosenMove >= 1 && chosenMove <= 9) {
-                if (positions.get(chosenMove - 1) instanceof String) {
-                    System.out.println("You cannot place your marker here. Enter a new position, please.");
+        while (!validInput) {
+
+            try {
+                chosenMove = scanner.nextInt();
+                scanner.nextLine();
+                if (chosenMove >= 1 && chosenMove <= 9) {
+                    if (positions.get(chosenMove - 1) instanceof String) {
+                        System.out.println("You cannot place your marker here. Enter a new position, please.");
+                    } else {
+                        validInput = true;
+                    }
                 } else {
-                    positions.set(chosenMove - 1, symbol);
-                    presentBoard();
-                    validInput = true;
+                    System.out.println("You have not chosen a number between 1-9. Please try again.");
                 }
+            } catch(InputMismatchException exception) {
+                System.out.println("This is not a valid input. Please enter a number between 1-9.");
+                scanner.nextLine();
             }
         }
+
+        positions.set(chosenMove - 1, symbol);
+        presentBoard();
     }
 
 
