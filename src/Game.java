@@ -19,27 +19,17 @@ public class Game {
 
         setUp();
 
-        boolean thereIsAWinner = false;
+        placeMakerLoop();
 
-        while (!thereIsAWinner) {
-            placeMarker(player1, "X");
 
-            thereIsAWinner = checkWinner();
-            if(thereIsAWinner) {
-                break;
-            }
-
-            placeMarker(player2, "O");
-
-            thereIsAWinner = checkWinner();
-            if(thereIsAWinner) {
-                break;
-            }
-        }
 
     }
 
-    //-----------------------------------METHOD: SET UP WITH PLAYER NAMES---------------------------------------------------
+
+
+
+
+//-----------------------------------METHOD: SET UP WITH PLAYER NAMES---------------------------------------------------
     public void setUp() {
         System.out.println("You are to play the game Tic Tac Toe.");
         System.out.println("This is what the playing board looks like:\n");
@@ -53,7 +43,10 @@ public class Game {
         System.out.println("\n" + this.player1.getName() + ", your marker is an X. " + this.player2.getName() + ", your marker is an O.");
     }
 
-    //------------------------METHOD: PRESENT THE CURRENT PLAYING BOARD-----------------------------------------------------
+
+
+
+//------------------------METHOD: PRESENT THE CURRENT PLAYING BOARD-----------------------------------------------------
     public void presentBoard() {
         System.out.println("+----+----+----+\n| " +
                 positions.get(0) + "  | " + positions.get(1) + "  | " + positions.get(2) + "  |\n+----+----+----+\n| " +
@@ -80,6 +73,29 @@ public class Game {
                     presentBoard();
                     validInput = true;
                 }
+            }
+        }
+    }
+
+
+
+//----------------------------------METHOD: LOOPS THROUGH THE ROUNDS TO PLACE MARKERS-----------------------------------
+    public void placeMakerLoop() {
+        boolean thereIsAWinner = false;
+
+        while (!thereIsAWinner) {
+            placeMarker(player1, "X");
+
+            thereIsAWinner = checkWinner();
+            if(thereIsAWinner) {
+                break;
+            }
+
+            placeMarker(player2, "O");
+
+            thereIsAWinner = checkWinner();
+            if(thereIsAWinner) {
+                break;
             }
         }
     }
@@ -116,7 +132,7 @@ public class Game {
     }
 
 
-
+//-------------------------------METHOD: CHECK IF THERE IS A DRAW--------------------------------------------------------
     private boolean isThereADraw() {
         for(Object object : positions) {
             if (object instanceof Integer) {
@@ -124,7 +140,5 @@ public class Game {
             }
         }
         return true;
-
-
     }
 }
