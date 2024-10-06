@@ -62,6 +62,8 @@ public class Game {
     }
 
 
+
+//-----------------------------METHOD: PLACE MARKER ON BOARD------------------------------------------------------------
     public void placeMarker(Player player, String symbol) {
         System.out.println(player.getName() + ", choose a position, 1-9, where you wish to place your marker.");
 
@@ -83,6 +85,8 @@ public class Game {
     }
 
 
+
+//--------------------------------METHOD: CHECK IF SOMEONE HAS 3 IN A ROW-----------------------------------------------
     private boolean checkWinner() {
         if ((positions.get(0).equals("X") && positions.get(1).equals("X") && positions.get(2).equals("X")) ||
                 (positions.get(3).equals("X") && positions.get(4).equals("X") && positions.get(5).equals("X")) ||
@@ -104,8 +108,23 @@ public class Game {
                 (positions.get(2).equals("O") && positions.get(4).equals("O") && positions.get(6).equals("O"))) {
             System.out.println(player2.getName() + " is the winner! Congratulations!");
             return true;
+        } else if (isThereADraw()) {
+            System.out.println("We've got ourselves a draw!");
+            return true;
         }
-
         return false;
+    }
+
+
+
+    private boolean isThereADraw() {
+        for(Object object : positions) {
+            if (object instanceof Integer) {
+                return false;
+            }
+        }
+        return true;
+
+
     }
 }
