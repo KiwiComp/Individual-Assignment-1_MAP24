@@ -24,6 +24,10 @@ public class Game {
 
             placeMakerLoop();
 
+            System.out.println("Current standing:");
+            System.out.println(player1.getName() + " wins: " + player1.wins);
+            System.out.println(player2.getName() + " wins: " + player2.wins);
+
             System.out.println("Do you wish to play another round?");
 
             boolean validInput = false;
@@ -134,6 +138,7 @@ public class Game {
                 (positions.get(0).equals("X") && positions.get(4).equals("X") && positions.get(8).equals("X")) ||
                 (positions.get(2).equals("X") && positions.get(4).equals("X") && positions.get(6).equals("X"))) {
             System.out.println(player1.getName() + " is the winner! Congratulations!");
+            player1.wins ++;
             return true;
         } else if ((positions.get(0).equals("O") && positions.get(1).equals("O") && positions.get(2).equals("O")) ||
                 (positions.get(3).equals("O") && positions.get(4).equals("O") && positions.get(5).equals("O")) ||
@@ -144,6 +149,7 @@ public class Game {
                 (positions.get(0).equals("O") && positions.get(4).equals("O") && positions.get(8).equals("O")) ||
                 (positions.get(2).equals("O") && positions.get(4).equals("O") && positions.get(6).equals("O"))) {
             System.out.println(player2.getName() + " is the winner! Congratulations!");
+            player2.wins ++;
             return true;
         } else if (isThereADraw()) {
             System.out.println("We've got ourselves a draw!");

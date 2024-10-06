@@ -1,6 +1,7 @@
 public class Player {
 
     private String name;
+    int wins = 0;
 
     public Player(String name) {
         this.name = name;
