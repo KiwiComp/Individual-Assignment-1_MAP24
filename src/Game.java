@@ -18,9 +18,22 @@ public class Game {
     public void playGame() {
 
         setUp();
+        boolean isRunning = true;
+        while(isRunning) {
+            placeMakerLoop();
 
-        placeMakerLoop();
+            System.out.println("Do you wish to play another round?");
+            String newGame = scanner.nextLine();
 
+            if(newGame.trim().equalsIgnoreCase ("y")) {
+                for(int i = 1; i >= 1 && i <= 9; i++) {
+                    positions.set(i-1, i);
+                }
+            } else if (newGame.trim().equalsIgnoreCase ("n")) {
+                System.out.println("Thank you for playing, have a great day!");
+                isRunning = false;
+            }
+        }
 
 
     }
