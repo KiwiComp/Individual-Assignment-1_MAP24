@@ -14,6 +14,13 @@ public class Game {
         }
     }
 
+
+    public void playGame() {
+        setUp();
+        placeMarker(player1, "X");
+    }
+
+//-----------------------------------METHOD: SET UP WITH PLAYER NAMES---------------------------------------------------
     public void setUp() {
         System.out.println("You are to play the game Tic Tac Toe.");
         System.out.println("This is what the playing board looks like:\n");
@@ -24,13 +31,34 @@ public class Game {
         String namePlayer2 = scanner.nextLine();
         this.player1 = new Player(namePlayer1);
         this.player2 = new Player(namePlayer2);
-        System.out.println(this.player1.getName() + ", your marker is an X. " + this.player2.getName() + ", your marker is an O.");
+        System.out.println("\n" + this.player1.getName() + ", your marker is an X. " + this.player2.getName() + ", your marker is an O.");
     }
 
+//------------------------METHOD: PRESENT THE CURRENT PLAYING BOARD-----------------------------------------------------
     public void presentBoard() {
         System.out.println("+----+----+----+\n| " +
                 positions.get(0)+"  | "+positions.get(1)+"  | "+positions.get(2)+"  |\n+----+----+----+\n| "+
                 positions.get(3)+"  | "+positions.get(4)+"  | "+positions.get(5)+"  |\n+----+----+----+\n| "+
                 positions.get(6)+"  | "+positions.get(7)+"  | "+positions.get(8)+"  |\n+----+----+----+\n");
+    }
+
+
+    public void placeMarker(Player player, String symbol) {
+        System.out.println(player + ", choose a position, 1-9, where you wish to place your marker.");
+
+        boolean validInput = false;
+        while(!validInput) {
+            int chosenMove = scanner.nextInt();
+            scanner.nextLine();
+
+            if(chosenMove >= 1 && chosenMove <=9) {
+                if(positions.get(chosenMove-1) instanceof String) {
+                    System.out.println("You cannot place your marker here. Enter a new position, please.");
+                } else {
+                    positions.set(chosenMove-1, symbol);
+                    validInput = true;
+                }
+            }
+        }
     }
 }
