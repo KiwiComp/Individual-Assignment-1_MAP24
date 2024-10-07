@@ -63,13 +63,31 @@ public class Game {
         System.out.println("You are to play the game Tic Tac Toe.");
         System.out.println("This is what the playing board looks like:\n");
         presentBoard();
+
         System.out.println("Player 1, please type your name:");
         String namePlayer1 = scanner.nextLine();
         System.out.println("Player 2, please type your name:");
         String namePlayer2 = scanner.nextLine();
+
         this.player1 = new Player(namePlayer1);
         this.player2 = new Player(namePlayer2);
-        System.out.println("\n" + this.player1.getName() + ", your marker is an X. " + this.player2.getName() + ", your marker is an O.");
+
+        System.out.println("\n" + this.player1.getName() + ", your marker is an X. " + this.player2.getName() + ", your marker is an O.\n");
+    }
+
+
+    public void setUpComputer() {
+        System.out.println("You have chosen to play the game Tic Tac Toe against the computer.");
+        System.out.println("This is what the playing board looks like:\n");
+        presentBoard();
+
+        System.out.println("Player 1, please type your name:");
+        String namePlayer1 = scanner.nextLine();
+
+        this.player1 = new Player(namePlayer1);
+        this.player2 = new Player("Computer");
+
+        System.out.println("\n" + this.player1.getName() + ", your marker is an X. " + this.player2.getName() + "'s marker is an O.\n");
     }
 
 
