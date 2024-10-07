@@ -18,7 +18,24 @@ public class Game {
 
 
     public void playGame() {
-        setUp();
+        System.out.println("----------------+ TIC TAC TOE +----------------");
+        System.out.println("Do you wish to play against another human or against the computer? Enter 1 for another human, and enter 2 for the computer.");
+
+        boolean chooseGameAlternative = false;
+        while (!chooseGameAlternative) {
+            String chosenAlternative = scanner.nextLine();
+
+            if (chosenAlternative.trim().equals("1")) {
+                setUp();
+                chooseGameAlternative = true;
+            } else if (chosenAlternative.trim().equals("2")) {
+                setUpComputer();
+                chooseGameAlternative = true;
+            } else {
+                System.out.println("You have not chosen a valid option. Please enter 1 for playing against a human or 2 for playing against the computer.");
+            }
+        }
+
 
         boolean isRunning = true;
         while(isRunning) {
