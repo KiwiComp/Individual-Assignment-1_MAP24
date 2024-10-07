@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
@@ -75,7 +76,7 @@ public class Game {
 
 
 
-//-----------------------------------METHOD: SET UP WITH PLAYER NAMES---------------------------------------------------
+//-----------------------------------METHOD: SET UP HUMAN VS HUMAN------------------------------------------------------
     public void setUp() {
         System.out.println("You are to play the game Tic Tac Toe.");
         System.out.println("This is what the playing board looks like:\n");
@@ -93,6 +94,9 @@ public class Game {
     }
 
 
+
+
+//----------------------------------METHOD: SET UP HUMAN VS COMPUTER----------------------------------------------------
     public void setUpComputer() {
         System.out.println("You have chosen to play the game Tic Tac Toe against the computer.");
         System.out.println("This is what the playing board looks like:\n");
@@ -120,7 +124,7 @@ public class Game {
 
 
 
-//-----------------------------METHOD: PLACE MARKER ON BOARD------------------------------------------------------------
+//-----------------------------METHOD: HUMAN PLACES MARKER ON BOARD-----------------------------------------------------
     public void placeMarker(Player player, String symbol) {
         System.out.println(player.getName() + ", choose a position, 1-9, where you wish to place your marker.");
 
@@ -149,6 +153,28 @@ public class Game {
 
         positions.set(chosenMove - 1, symbol);
         presentBoard();
+    }
+
+
+
+//-----------------------------METHOD: COMPUTER PLACES MARKER ON BOARD--------------------------------------------------
+    public void placeMarkerComputer(Player player, String symbol) {
+        int computerMove = -1;
+        boolean validRandomNumber = false;
+
+        while(!validRandomNumber) {
+            Random random = new Random();
+            computerMove = random.nextInt(1, 10);
+            if (positions.get(computerMove - 1) instanceof String) {
+
+            } else {
+                validRandomNumber = true;
+            }
+        }
+
+        positions.set(computerMove - 1, symbol);
+        presentBoard();
+
     }
 
 
