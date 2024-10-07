@@ -10,6 +10,7 @@ public class Game {
     ArrayList<Object> positions = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
     int numberOfGamesPlayed = 0;
+    int numberOfHumanPlayers;
 
     public Game() {
         for (int i = 1; i <= 9; i++) {
@@ -18,6 +19,9 @@ public class Game {
     }
 
 
+
+
+//-----------------------------------------METHOD: RUN GAME-------------------------------------------------------------
     public void playGame() {
         System.out.println("----------------+ TIC TAC TOE +----------------");
         System.out.println("Do you wish to play against another human or against the computer? Enter 1 for another human, and enter 2 for the computer.");
@@ -28,9 +32,11 @@ public class Game {
 
             if (chosenAlternative.trim().equals("1")) {
                 setUp();
+                numberOfHumanPlayers = 2;
                 chooseGameAlternative = true;
             } else if (chosenAlternative.trim().equals("2")) {
                 setUpComputer();
+                numberOfHumanPlayers =1;
                 chooseGameAlternative = true;
             } else {
                 System.out.println("You have not chosen a valid option. Please enter 1 for playing against a human or 2 for playing against the computer.");
@@ -41,7 +47,7 @@ public class Game {
         boolean isRunning = true;
         while(isRunning) {
 
-            placeMakerLoop();
+            placeMarkerLoop();
 
             numberOfGamesPlayed ++;
             System.out.println("Current standing:");
@@ -180,7 +186,7 @@ public class Game {
 
 
 //----------------------------------METHOD: LOOPS THROUGH THE ROUNDS TO PLACE MARKERS-----------------------------------
-    public void placeMakerLoop() {
+    public void placeMarkerLoop() {
         boolean thereIsAWinner = false;
 
         while (!thereIsAWinner) {
@@ -191,7 +197,11 @@ public class Game {
                 break;
             }
 
-            placeMarker(player2, "O");
+            if(numberOfHumanPlayers ==2) {
+                placeMarker(player2, "O");
+            } else if(numberOfHumanPlayers == 1) {
+                placeMarkerComputer(player2, "O");
+            }
 
             thereIsAWinner = checkWinner();
             if(thereIsAWinner) {
