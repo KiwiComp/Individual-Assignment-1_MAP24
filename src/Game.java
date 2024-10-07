@@ -12,6 +12,8 @@ public class Game {
     int numberOfGamesPlayed = 0;
     int numberOfHumanPlayers;
 
+
+
     public Game() {
         for (int i = 1; i <= 9; i++) {
             positions.add(i);
@@ -21,17 +23,16 @@ public class Game {
 
 
 
-//-----------------------------------------METHOD: RUN GAME-------------------------------------------------------------
+//-----------------------------------------METHOD: RUN THE GAME---------------------------------------------------------
     public void playGame() {
         System.out.println("----------------+ TIC TAC TOE +----------------");
-        System.out.println("Do you wish to play against another human or against the computer? Enter 1 for another human, and enter 2 for the computer.");
+        System.out.println("Do you wish to play against another player or against the computer? Enter 1 for another player, and enter 2 for the computer.");
 
         boolean chooseGameAlternative = false;
         while (!chooseGameAlternative) {
             String chosenAlternative = scanner.nextLine();
-
             if (chosenAlternative.trim().equals("1")) {
-                setUp();
+                setUpHumans();
                 numberOfHumanPlayers = 2;
                 chooseGameAlternative = true;
             } else if (chosenAlternative.trim().equals("2")) {
@@ -39,7 +40,7 @@ public class Game {
                 numberOfHumanPlayers =1;
                 chooseGameAlternative = true;
             } else {
-                System.out.println("You have not chosen a valid option. Please enter 1 for playing against a human or 2 for playing against the computer.");
+                System.out.println("You have not chosen a valid option. Please enter 1 for playing against another player or 2 for playing against the computer.");
             }
         }
 
@@ -50,24 +51,25 @@ public class Game {
             placeMarkerLoop();
 
             numberOfGamesPlayed ++;
-            System.out.println("Current standing:");
-            System.out.println("Number of games played: " + numberOfGamesPlayed);
-            System.out.println(player1.getName() + " wins: " + player1.wins);
-            System.out.println(player2.getName() + " wins: " + player2.wins);
-            System.out.println("Number of draws: " + (numberOfGamesPlayed-player1.wins-player2.wins));
 
-            System.out.println("Do you wish to play another round? (y/n)");
+            System.out.println("\nCurrent standing:");
+            System.out.println("--> Number of games played: " + numberOfGamesPlayed);
+            System.out.println("--> " + player1.getName() + " wins: " + player1.wins);
+            System.out.println("--> " + player2.getName() + " wins: " + player2.wins);
+            System.out.println("--> Number of draws: " + (numberOfGamesPlayed-player1.wins-player2.wins));
 
+            System.out.println("\nDo you wish to play another round? (y/n)");
             boolean validInput = false;
             while(!validInput) {
                 String newGame = scanner.nextLine();
                     if (newGame.trim().equalsIgnoreCase("y")) {
+                        System.out.println();
                         for (int i = 1; i >= 1 && i <= 9; i++) {
                             positions.set(i - 1, i);
                         }
                         validInput = true;
                     } else if (newGame.trim().equalsIgnoreCase("n")) {
-                        System.out.println("Thank you for playing, have a great day!");
+                        System.out.println("\nThank you for playing, have a great day!");
                         isRunning = false;
                         validInput = true;
                     } else {
@@ -83,13 +85,14 @@ public class Game {
 
 
 //-----------------------------------METHOD: SET UP HUMAN VS HUMAN------------------------------------------------------
-    public void setUp() {
-        System.out.println("You are to play the game Tic Tac Toe.");
+    public void setUpHumans() {
+        System.out.println("You have chosen to play against another player.");
         System.out.println("This is what the playing board looks like:\n");
         presentBoard();
 
         System.out.println("Player 1, please type your name:");
         String namePlayer1 = scanner.nextLine();
+        System.out.println();
         System.out.println("Player 2, please type your name:");
         String namePlayer2 = scanner.nextLine();
 
@@ -104,11 +107,11 @@ public class Game {
 
 //----------------------------------METHOD: SET UP HUMAN VS COMPUTER----------------------------------------------------
     public void setUpComputer() {
-        System.out.println("You have chosen to play the game Tic Tac Toe against the computer.");
+        System.out.println("You have chosen to play against the computer.");
         System.out.println("This is what the playing board looks like:\n");
         presentBoard();
 
-        System.out.println("Player 1, please type your name:");
+        System.out.println("Please type your name:");
         String namePlayer1 = scanner.nextLine();
 
         this.player1 = new Player(namePlayer1);
@@ -130,15 +133,44 @@ public class Game {
 
 
 
+
+
+//----------------------------------METHOD: LOOPS THROUGH THE ROUNDS TO PLACE MARKERS-----------------------------------
+    public void placeMarkerLoop() {
+        boolean thereIsAWinner = false;
+
+        while (!thereIsAWinner) {
+            placeMarkerPlayer(player1, "X");
+
+            thereIsAWinner = checkWinner();
+            if(thereIsAWinner) {
+                break;
+            }
+
+            if(numberOfHumanPlayers == 2) {
+                placeMarkerPlayer(player2, "O");
+            } else if(numberOfHumanPlayers == 1) {
+                placeMarkerComputer(player2, "O");
+            }
+
+            thereIsAWinner = checkWinner();
+            if(thereIsAWinner) {
+                break;
+            }
+        }
+    }
+
+
+
+
 //-----------------------------METHOD: HUMAN PLACES MARKER ON BOARD-----------------------------------------------------
-    public void placeMarker(Player player, String symbol) {
+    public void placeMarkerPlayer(Player player, String symbol) {
         System.out.println(player.getName() + ", choose a position, 1-9, where you wish to place your marker.");
 
         boolean validInput = false;
         int chosenMove = -1;
 
         while (!validInput) {
-
             try {
                 chosenMove = scanner.nextInt();
                 scanner.nextLine();
@@ -165,54 +197,26 @@ public class Game {
 
 //-----------------------------METHOD: COMPUTER PLACES MARKER ON BOARD--------------------------------------------------
     public void placeMarkerComputer(Player player, String symbol) {
-        int computerMove = -1;
         boolean validRandomNumber = false;
+        int computerMove = -1;
 
         while(!validRandomNumber) {
             Random random = new Random();
             computerMove = random.nextInt(1, 10);
-            if (positions.get(computerMove - 1) instanceof String) {
-
-            } else {
+            if (!(positions.get(computerMove - 1) instanceof String)) {
+                System.out.println(player2.getName() + " places marker on position " + positions.get(computerMove-1) + ".");
                 validRandomNumber = true;
             }
         }
 
         positions.set(computerMove - 1, symbol);
         presentBoard();
-
     }
 
 
 
-//----------------------------------METHOD: LOOPS THROUGH THE ROUNDS TO PLACE MARKERS-----------------------------------
-    public void placeMarkerLoop() {
-        boolean thereIsAWinner = false;
 
-        while (!thereIsAWinner) {
-            placeMarker(player1, "X");
-
-            thereIsAWinner = checkWinner();
-            if(thereIsAWinner) {
-                break;
-            }
-
-            if(numberOfHumanPlayers ==2) {
-                placeMarker(player2, "O");
-            } else if(numberOfHumanPlayers == 1) {
-                placeMarkerComputer(player2, "O");
-            }
-
-            thereIsAWinner = checkWinner();
-            if(thereIsAWinner) {
-                break;
-            }
-        }
-    }
-
-
-
-//--------------------------------METHOD: CHECK IF SOMEONE HAS 3 IN A ROW-----------------------------------------------
+//-----------------------METHOD: CHECK IF SOMEONE HAS 3 IN A ROW, OR IF THERE'S A DRAW----------------------------------
     private boolean checkWinner() {
         if ((positions.get(0).equals("X") && positions.get(1).equals("X") && positions.get(2).equals("X")) ||
                 (positions.get(3).equals("X") && positions.get(4).equals("X") && positions.get(5).equals("X")) ||
@@ -244,7 +248,7 @@ public class Game {
     }
 
 
-//-------------------------------METHOD: CHECK IF THERE IS A DRAW--------------------------------------------------------
+//-------------------------------METHOD: CHECK IF THERE IS A DRAW-------------------------------------------------------
     private boolean isThereADraw() {
         for(Object object : positions) {
             if (object instanceof Integer) {
