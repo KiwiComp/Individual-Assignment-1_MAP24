@@ -8,6 +8,7 @@ public class Game {
     private Player player2;
     ArrayList<Object> positions = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
+    int numberOfGamesPlayed = 0;
 
     public Game() {
         for (int i = 1; i <= 9; i++) {
@@ -24,11 +25,14 @@ public class Game {
 
             placeMakerLoop();
 
+            numberOfGamesPlayed ++;
             System.out.println("Current standing:");
+            System.out.println("Number of games played: " + numberOfGamesPlayed);
             System.out.println(player1.getName() + " wins: " + player1.wins);
             System.out.println(player2.getName() + " wins: " + player2.wins);
+            System.out.println("Number of draws: " + (numberOfGamesPlayed-player1.wins-player2.wins));
 
-            System.out.println("Do you wish to play another round?");
+            System.out.println("Do you wish to play another round? (y/n)");
 
             boolean validInput = false;
             while(!validInput) {
