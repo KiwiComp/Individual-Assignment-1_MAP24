@@ -8,6 +8,7 @@ public class Game {
     private Player player1;
     private Player player2;
     ArrayList<Object> positions = new ArrayList<>();
+    ArrayList<int[]> winningCombinations = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
     int numberOfGamesPlayed = 0;
     int numberOfHumanPlayers;
@@ -18,6 +19,15 @@ public class Game {
         for (int i = 1; i <= 9; i++) {
             positions.add(i);
         }
+
+        winningCombinations.add(new int[]{0, 1, 2});
+        winningCombinations.add(new int[]{3, 4, 5});
+        winningCombinations.add(new int[]{6, 7, 8});
+        winningCombinations.add(new int[]{0, 3, 6});
+        winningCombinations.add(new int[]{1, 4, 7});
+        winningCombinations.add(new int[]{2, 5, 8});
+        winningCombinations.add(new int[]{0, 4, 8});
+        winningCombinations.add(new int[]{6, 4, 2});
     }
 
 
@@ -142,7 +152,8 @@ public class Game {
         while (!thereIsAWinner) {
             placeMarkerPlayer(player1, "X");
 
-            thereIsAWinner = checkWinner();
+//            thereIsAWinner = checkWinner();
+          thereIsAWinner = checkWinningCombinations(player1, "X");
             if(thereIsAWinner) {
                 break;
             }
@@ -153,7 +164,8 @@ public class Game {
                 placeMarkerComputer(player2, "O");
             }
 
-            thereIsAWinner = checkWinner();
+//            thereIsAWinner = checkWinner();
+          thereIsAWinner = checkWinningCombinations(player2, "O");
             if(thereIsAWinner) {
                 break;
             }
@@ -204,7 +216,7 @@ public class Game {
             Random random = new Random();
             computerMove = random.nextInt(1, 10);
             if (!(positions.get(computerMove - 1) instanceof String)) {
-                System.out.println(player2.getName() + " places marker on position " + positions.get(computerMove-1) + ".");
+                System.out.println(player.getName() + " places marker on position " + computerMove + ".");
                 validRandomNumber = true;
             }
         }
@@ -215,36 +227,32 @@ public class Game {
 
 
 
+//----------------------------METHOD: CHECK WINNER/DRAW-----------------------------------------------------------------
+    public boolean checkWinningCombinations(Player player, String symbol) {
+        for (int[] combinationToCheck : winningCombinations) {
+            if(isThereAWinner(combinationToCheck, symbol)) {
+                System.out.println(player.getName() + " is the winner!");
+                player.wins++;
+                return true;
+            }
 
-//-----------------------METHOD: CHECK IF SOMEONE HAS 3 IN A ROW, OR IF THERE'S A DRAW----------------------------------
-    private boolean checkWinner() {
-        if ((positions.get(0).equals("X") && positions.get(1).equals("X") && positions.get(2).equals("X")) ||
-                (positions.get(3).equals("X") && positions.get(4).equals("X") && positions.get(5).equals("X")) ||
-                (positions.get(6).equals("X") && positions.get(7).equals("X") && positions.get(8).equals("X")) ||
-                (positions.get(0).equals("X") && positions.get(3).equals("X") && positions.get(6).equals("X")) ||
-                (positions.get(1).equals("X") && positions.get(4).equals("X") && positions.get(7).equals("X")) ||
-                (positions.get(2).equals("X") && positions.get(5).equals("X") && positions.get(8).equals("X")) ||
-                (positions.get(0).equals("X") && positions.get(4).equals("X") && positions.get(8).equals("X")) ||
-                (positions.get(2).equals("X") && positions.get(4).equals("X") && positions.get(6).equals("X"))) {
-            System.out.println(player1.getName() + " is the winner! Congratulations!");
-            player1.wins ++;
-            return true;
-        } else if ((positions.get(0).equals("O") && positions.get(1).equals("O") && positions.get(2).equals("O")) ||
-                (positions.get(3).equals("O") && positions.get(4).equals("O") && positions.get(5).equals("O")) ||
-                (positions.get(6).equals("O") && positions.get(7).equals("O") && positions.get(8).equals("O")) ||
-                (positions.get(0).equals("O") && positions.get(3).equals("O") && positions.get(6).equals("O")) ||
-                (positions.get(1).equals("O") && positions.get(4).equals("O") && positions.get(7).equals("O")) ||
-                (positions.get(2).equals("O") && positions.get(5).equals("O") && positions.get(8).equals("O")) ||
-                (positions.get(0).equals("O") && positions.get(4).equals("O") && positions.get(8).equals("O")) ||
-                (positions.get(2).equals("O") && positions.get(4).equals("O") && positions.get(6).equals("O"))) {
-            System.out.println(player2.getName() + " is the winner! Congratulations!");
-            player2.wins ++;
-            return true;
-        } else if (isThereADraw()) {
+        } if (isThereADraw()) {
             System.out.println("We've got ourselves a draw!");
             return true;
         }
         return false;
+    }
+
+
+
+//-------------------------METHOD: CHECK WINNING COMBINATION------------------------------------------------------------
+    private boolean isThereAWinner(int[] winningCombo, String symbol) {
+        for(int index : winningCombo) {
+            if(!(positions.get(index) instanceof String && positions.get(index).equals(symbol))) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
